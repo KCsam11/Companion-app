@@ -1,6 +1,4 @@
 user_shema  = {
-    "id" : str,
-    "summoner_name" : str,
     "riot_id" : str,
     "email" : str,
     "password" : str,
@@ -9,7 +7,6 @@ user_shema  = {
 }
 
 ia_schema = {
-    "id" : str,
     "user_id" : str,
     "query" : str,
     "response" : str,
