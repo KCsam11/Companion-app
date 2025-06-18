@@ -1,9 +1,12 @@
 user_shema  = {
+    "username" : str,
+    "region" : str,
     "riot_id" : str,
     "email" : str,
     "password" : str,
     "date_created" : str,
-    "last_login" : str
+    "last_login" : str,
+    "is_verified" : bool,
 }
 
 ia_schema = {
