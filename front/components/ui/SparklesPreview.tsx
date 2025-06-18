@@ -12,20 +12,7 @@ export function SparklesPreview() {
         <h1 className='text-5xl md:text-7xl font-bold text-white flex items-center gap-x-2 md:gap-x-4'>
           <span>C</span>
           <div className='w-10 h-10 md:w-16 md:h-16'>
-            <div
-              className='w-full h-full [animation:spin_10s_linear_infinite]'
-              style={{
-                background: 'linear-gradient(135deg, #FF0040 0%, #FF1744 10%, #FF6B35 20%, #F7931E 30%, #FFD23F 40%, #ADFF2F 50%, #06FFA5 60%, #00CED1 70%, #3D5AFE 80%, #8E24AA 90%, #FF0066 100%)',
-                WebkitMaskImage: 'url(/companion-logo.svg)',
-                WebkitMaskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                WebkitMaskSize: 'contain',
-                maskImage: 'url(/companion-logo.svg)',
-                maskRepeat: 'no-repeat',
-                maskPosition: 'center',
-                maskSize: 'contain',
-              }}
-            />
+            <img src='/companion-logo.svg' alt='Companion Logo' className='w-full h-full [animation:spin_10s_linear_infinite]' />
           </div>
           <span>M P A N I O N</span>
         </h1>
