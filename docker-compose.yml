@@ -4,14 +4,19 @@ services:
     image: mongo:latest
     container_name: mongo
     ports:
-      - '27018:27017'
+      - '27019:27017'
     volumes:
       - mongo_data:/data/db
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=root
+    #   - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+    #   - MONGO_INITDB_DATABASE=companion_db
 
   flask:
     build: ./back
     container_name: flask-app
     environment:
+      # - MONGO_URI=mongodb://root:rootpassword@mongo:27017/companion_db?authSource=admin
       - MONGO_URI=mongodb://mongo:27017/companion_db
       - SECRET_KEY=dev-secret-key
     ports:
@@ -19,5 +24,25 @@ services:
     depends_on:
       - mongo
 
+  front:
+    build: ./front
+    container_name: nextjs-app
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    depends_on:
+      - flask
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - flask
+      - front
 volumes:
   mongo_data:

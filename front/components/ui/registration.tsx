@@ -119,6 +119,78 @@ const Logo = (props: React.HTMLAttributes<HTMLImageElement>) => <img src='/compa
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [region, setRegion] = useState('europe');
+  const [playerName, setPlayerName] = useState('');
+  const [tag, setTag] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [terms, setTerms] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const handleCreateAccount = async () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!playerName) newErrors.playerName = 'Player name is required.';
+    if (!tag) newErrors.tag = 'Tag is required.';
+    if (!username) newErrors.username = 'Username is required.';
+    if (!email) {
+      newErrors.email = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Email address is invalid.';
+    }
+    if (!password) newErrors.password = 'Password is required.';
+    if (!terms) newErrors.terms = 'You must accept the terms and conditions.';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return; // Stop if there are errors
+    }
+
+    //appel de l"api pour créer le compte
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          region,
+          playerName,
+          tag,
+          username,
+          email,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Account created successfully:', data);
+      } else {
+        const errorData = await response.json();
+        console.error('Error creating account:', errorData);
+        setErrors({ api: errorData.message || 'Failed to create account' });
+      }
+    } catch (error) {
+      console.error('Error creating account:', error);
+      setErrors({ api: 'Network error. Please try again.' });
+    }
+  };
+
+  const getRegionDisplay = (value: string) => {
+    switch (value) {
+      case 'europe':
+        return <span>Europe West</span>;
+      case 'north-america':
+        return <span>North America</span>;
+      case 'korean':
+        return <span>Korean</span>;
+      default:
+        return <span>Select region</span>;
+    }
+  };
 
   return (
     <div className='flex items-center justify-center min-h-screen'>
@@ -133,64 +205,62 @@ export default function SignupForm() {
           </CardHeader>
           <CardContent className='space-y-6 px-8'>
             <div className='space-y-2'>
-              <Label htmlFor='role'>Région</Label>
-              <Select defaultValue='designer'>
-                <SelectTrigger id='role' className='[&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0'>
-                  <SelectValue placeholder='Select role' />
+              <Label htmlFor='region'>Région</Label>
+              <Select value={region} onValueChange={setRegion}>
+                <SelectTrigger id='region' className='text-white'>
+                  {region ? getRegionDisplay(region) : <span className='text-muted-foreground'>Select region</span>}
                 </SelectTrigger>
-                <SelectContent className='[&_*[role=option]]:ps-2 [&_*[role=option]]:pe-8 [&_*[role=option]>span]:start-auto [&_*[role=option]>span]:end-2 [&_*[role=option]>span]:flex [&_*[role=option]>span]:items-center [&_*[role=option]>span]:gap-2 [&_*[role=option]>span>svg]:shrink-0'>
-                  <SelectItem value='designer'>
-                    <User size={16} aria-hidden='true' />
-                    <span className='truncate'>Europe West</span>
+                <SelectContent>
+                  <SelectItem value='europe'>
+                    <span>Europe West</span>
                   </SelectItem>
-                  <SelectItem value='developer'>
-                    <Code size={16} aria-hidden='true' />
-                    <span className='truncate'>North America</span>
+                  <SelectItem value='north-america'>
+                    <span>North America</span>
                   </SelectItem>
-                  <SelectItem value='manager'>
-                    <BarChart size={16} aria-hidden='true' />
-                    <span className='truncate'>Korean</span>
+                  <SelectItem value='korean'>
+                    <span>Korean</span>
                   </SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
-                <Label htmlFor='firstName'>Player name</Label>
-                <Input id='playerName' />
+                <Label htmlFor='playerName'>Player name</Label>
+                <Input id='playerName' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
+                {errors.playerName && <p className='text-sm text-red-500'>{errors.playerName}</p>}
               </div>
               <div className='space-y-2'>
                 <Label htmlFor='tag'>Tag</Label>
                 <div className='relative'>
                   <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground'>#</span>
-                  <Input id='tag' className='pl-7' />
+                  <Input id='tag' className='pl-7' value={tag} onChange={(e) => setTag(e.target.value)} />
                 </div>
+                {errors.tag && <p className='text-sm text-red-500'>{errors.tag}</p>}
               </div>
             </div>
-
             <div className='space-y-2'>
               <Label htmlFor='username'>Username</Label>
-              <Input id='username' />
+              <Input id='username' value={username} onChange={(e) => setUsername(e.target.value)} />
+              {errors.username && <p className='text-sm text-red-500'>{errors.username}</p>}
             </div>
-
             <div className='space-y-2'>
               <Label htmlFor='email'>Email address</Label>
-              <Input id='email' type='email' />
+              <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+              {errors.email && <p className='text-sm text-red-500'>{errors.email}</p>}
             </div>
-
             <div className='space-y-2'>
               <Label htmlFor='password'>Password</Label>
               <div className='relative'>
-                <Input id='password' type={showPassword ? 'text' : 'password'} className='pr-10' />
+                <Input id='password' type={showPassword ? 'text' : 'password'} className='pr-10' value={password} onChange={(e) => setPassword(e.target.value)} />
+                {errors.password && <p className='text-sm text-red-500'>{errors.password}</p>}
+
                 <Button type='button' variant='ghost' size='icon' className='absolute right-0 top-0 h-full px-3 text-muted-foreground hover:bg-transparent' onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
                 </Button>
               </div>
             </div>
-
             <div className='flex items-center space-x-2'>
-              <Checkbox id='terms' />
+              <Checkbox id='terms' checked={terms} onCheckedChange={(checked) => setTerms(Boolean(checked))} />
               <label htmlFor='terms' className='text-sm text-muted-foreground'>
                 I agree to the{' '}
                 <a href='#' className='text-primary hover:underline'>
@@ -202,8 +272,11 @@ export default function SignupForm() {
                 </a>
               </label>
             </div>
-
-            <Button className='w-full bg-primary text-primary-foreground'>Create free account</Button>
+            {errors.terms && <p className='text-sm text-red-500'>{errors.terms}</p>}
+            {errors.api && <p className='text-sm text-red-500'>{errors.api}</p>}
+            <Button onClick={handleCreateAccount} className='w-full bg-primary text-primary-foreground'>
+              Create free account
+            </Button>{' '}
           </CardContent>
           <CardFooter className='flex justify-center border-t !py-4'>
             <p className='text-center text-sm text-muted-foreground'>
@@ -218,3 +291,4 @@ export default function SignupForm() {
     </div>
   );
 }
+``;

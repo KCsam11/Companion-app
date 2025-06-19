@@ -1,0 +1,4 @@
+http://localhost {
+    reverse_proxy /api* flask:5000
+    reverse_proxy /* front:3000
+}
