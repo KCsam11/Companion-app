@@ -109,7 +109,7 @@ export function ConfirmEmailDialog() {
               </p>
             )}
             <p className='text-center text-sm'>
-              <a className='underline hover:no-underline' href='#'>
+              <a className='underline hover:no-underline' href=''>
                 Resend code
               </a>
             </p>

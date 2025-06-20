@@ -53,9 +53,9 @@ def register(data):
             "createdAt": datetime.utcnow(),
             "lastLogin": datetime.utcnow()
         },
-        "status": {
-            "email_verified": False,
-        }
+        
+        "email_verified": False,
+        
     }
     
 

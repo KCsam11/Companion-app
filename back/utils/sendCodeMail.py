@@ -7,7 +7,7 @@ def send_verification_code(email, code):
     html = render_template("verif_code_mail.html", code=code)
 
     resend.Emails.send({
-        "from": "onboarding@resend.dev",
+        "from": "Companion <no-reply@email.lol-companion.com>",
         "to": [email],
         "subject": "Voici ton code de vérification",
         "html": html
