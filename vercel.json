@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "back/app.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "front/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/back/app.py"
+    },
+    {}
+  ]
+}
