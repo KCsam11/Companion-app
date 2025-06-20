@@ -1,7 +1,8 @@
 import resend
 from flask import render_template
+from os import getenv
 
-resend.api_key = "re_XkoTeHi5_LjBekRaeSPfu9djxWGZ3Gano"
+resend.api_key = getenv("RESEND_API_KEY")
 
 def send_verification_code(email, code):
     html = render_template("verif_code_mail.html", code=code)
