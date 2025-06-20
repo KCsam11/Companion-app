@@ -9,8 +9,10 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import * as SelectPrimitive from '@radix-ui/react-select';
+import { useRouter } from 'next/navigation';
 import { BarChart, Code, Eye, EyeOff, User, CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { JSX, SVGProps } from 'react';
+import { Toaster } from './sonner';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -118,6 +120,7 @@ SelectItem.displayName = SelectPrimitive.Item.displayName;
 const Logo = (props: React.HTMLAttributes<HTMLImageElement>) => <img src='/companion-logo.svg' alt='Companion Logo' className='h-12 w-12' {...props} />;
 
 export default function SignupForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [region, setRegion] = useState('europe');
   const [playerName, setPlayerName] = useState('');
@@ -166,8 +169,21 @@ export default function SignupForm() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Account created successfully:', data);
+        console.log('Account created successfully:');
+        const sendCodeResponse = await fetch('/api/send-code', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+        if (sendCodeResponse.ok) {
+          router.push(`/confirm-email?email=${encodeURIComponent(email)}`);
+        } else {
+          const errorData = await sendCodeResponse.json();
+          console.error('Error sending verification code:', errorData);
+          setErrors({ api: errorData.message || 'Failed to send verification code' });
+        }
       } else {
         const errorData = await response.json();
         console.error('Error creating account:', errorData);

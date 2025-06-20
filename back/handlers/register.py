@@ -33,7 +33,7 @@ def register(data):
     riot_id = f"{player_name}#{tag}"
     riot_account = verify_riot_id(player_name, tag, region)
     if not riot_account:
-        return jsonify({"error": "Invalid Riot ID or player not found.", "riot_account": riot_account}), 404
+        return jsonify({"error": "Invalid Riot ID or player not found."}), 404
 
     # hasher le mot de passe
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
@@ -54,7 +54,7 @@ def register(data):
             "lastLogin": datetime.utcnow()
         },
         "status": {
-            "isVerified": False,
+            "email_verified": False,
         }
     }
     
@@ -70,7 +70,6 @@ def register(data):
         print(f"Error during user registration: {e}") 
         return jsonify({"error": "An error occurred during registration.", "details": str(e)}), 500
     
-    #envoie de l'email de confirmation
-    send_confirmation_email(email)
+    
 
     

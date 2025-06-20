@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      .email-container {
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .logo img {
+        height: 60px;
+      }
+      .title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+      }
+      .code-box {
+        text-align: center;
+        margin: 30px 0;
+      }
+      .code {
+        display: inline-block;
+        background-color: #f0f0f0;
+        padding: 15px 30px;
+        font-size: 28px;
+        letter-spacing: 6px;
+        font-weight: bold;
+        border-radius: 6px;
+        color: #333;
+        border: 1px dashed #ccc;
+      }
+      .footer {
+        font-size: 13px;
+        color: #888;
+        text-align: center;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="logo"><img src="""https://your-domain.com/companion-logo.svg" alt="""Logo" /></div>
+      <div class="title">Ton code de vérification</div>
+      <div class="code-box">
+        <div class="code">{{ code }}</div>
+      </div>
+      <p style="text-align: center">Entre ce code dans l'application pour valider ton adresse email.</p>
+      <div class="footer">Si tu n'es pas à l'origine de cette demande, tu peux ignorer ce message.</div>
+    </div>
+  </body>
+</html>
