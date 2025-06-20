@@ -19,6 +19,8 @@ services:
       # - MONGO_URI=mongodb://root:rootpassword@mongo:27017/companion_db?authSource=admin
       - MONGO_URI=mongodb://mongo:27017/companion_db
       - SECRET_KEY=dev-secret-key
+      - RIOT_API_KEY=RGAPI-013f2863-7e3e-4a47-b6bf-a56d101c48ab
+
     ports:
       - '5001:5000'
     depends_on:

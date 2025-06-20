@@ -1,6 +1,7 @@
 user_shema  = {
     "username" : str,
     "region" : str,
+    "puuid" : str,
     "riot_id" : str,
     "email" : str,
     "password" : str,

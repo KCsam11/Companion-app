@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from db.collections import users_collection
+import bcrypt
+from utils.verifRiotID import verify_riot_id
 
 def register(data):
     username = data.get('username')
@@ -10,6 +12,7 @@ def register(data):
     player_name = data.get('playerName')
     tag = data.get('tag')
 
+    # Vérifier si tous les champs requis sont présents
     if not username or not password or not email or not region or not player_name or not tag:
         return jsonify({"error": "All fields are required", "username": username, "email": email, "region": region, "player_name": player_name, "tag": tag}), 400
 
@@ -18,35 +21,46 @@ def register(data):
     if existing_user:
         return jsonify({"error": "Email already registered"}), 400
     
-    # Format the Riot ID
+    # convertir la région en format Riot
+    if region == "europe":
+        region = "EUW1"
+    elif region == "north-america":
+        region = "NA1"
+    elif region == "korea":
+        region = "KR"
+
+    # vérifier si le Riot ID est valide
     riot_id = f"{player_name}#{tag}"
+    riot_account = verify_riot_id(player_name, tag, region)
+    if not riot_account:
+        return jsonify({"error": "Invalid Riot ID or player not found.", "riot_account": riot_account}), 404
 
-    #recherche du joueur sur l'API Riot Games (à implémenter)
-    # Si le joueur existe, on peut continuer l'enregistrement
-    # Sinon, retourner une erreur
-
-
-    date_created = datetime.now().isoformat()
-    last_login = date_created
-    is_verified = False
-
+    # hasher le mot de passe
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     user_data = {
         "username": username,
-        "region": region,
-        "riot_id": riot_id,
         "email": email,
-        "password": password,  # In a real application, ensure to hash the password
-        "date_created": date_created,
-        "last_login": last_login,
-        "is_verified": is_verified
+        "password": hashed_password,
+        "riotData": {
+            "puuid": riot_account.get("puuid"),
+            "riotId": riot_id,
+            "playerName": player_name,
+            "tag": tag,
+            "region": region
+        },
+        "timestamps": {
+            "createdAt": datetime.utcnow(),
+            "lastLogin": datetime.utcnow()
+        },
+        "status": {
+            "isVerified": False,
+        }
     }
-
-    # Logique d'enregistrement d'utilisateur
+    
 
     try:
         result = users_collection.insert_one(user_data)
-
         if result.inserted_id:
             return jsonify({"message": "User registered successfully!", "user_id": str(result.inserted_id)}), 201
         else:
@@ -55,4 +69,8 @@ def register(data):
     except Exception as e:
         print(f"Error during user registration: {e}") 
         return jsonify({"error": "An error occurred during registration.", "details": str(e)}), 500
+    
+    #envoie de l'email de confirmation
+    send_confirmation_email(email)
+
     

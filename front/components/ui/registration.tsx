@@ -225,7 +225,7 @@ export default function SignupForm() {
             </div>
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
-                <Label htmlFor='playerName'>Player name</Label>
+                <Label htmlFor='playerName'>Riot ID</Label>
                 <Input id='playerName' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
                 {errors.playerName && <p className='text-sm text-red-500'>{errors.playerName}</p>}
               </div>

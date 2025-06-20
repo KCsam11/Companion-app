@@ -2,3 +2,5 @@ flask
 mongo
 requests
 flask-cors
+bcrypt
+requests
