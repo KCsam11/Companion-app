@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { SparklesPreview } from '@/components/ui/SparklesPreview';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,8 +30,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark bg-black`}>
-        {/* <SparklesPreview /> */}
-        {}
+        <Toaster />
         <main>{children}</main>
       </body>
     </html>

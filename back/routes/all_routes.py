@@ -6,10 +6,6 @@ from handlers.verifyCodeToUser  import verify_code_to_user
 
 all_routes = Blueprint("all_routes", __name__)
 
-@all_routes.route("/test-add-user", methods=["GET"])
-def test_add_user():
-   return seed_database()
-
 # Route for user registration
 @all_routes.route("/api/register", methods=["POST"])
 def register_user():

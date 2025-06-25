@@ -12,8 +12,8 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import { useRouter } from 'next/navigation';
 import { BarChart, Code, Eye, EyeOff, User, CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { JSX, SVGProps } from 'react';
-import { Toaster } from './sonner';
-
+// import { Toaster } from '@/components/ui/sonner'; // adapte le chemin selon ton projet
+import { toast } from 'sonner';
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -130,8 +130,12 @@ export default function SignupForm() {
   const [password, setPassword] = useState('');
   const [terms, setTerms] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false); // <-- Ajout
 
   const handleCreateAccount = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     const newErrors: { [key: string]: string } = {};
 
     if (!playerName) newErrors.playerName = 'Player name is required.';
@@ -148,10 +152,12 @@ export default function SignupForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsLoading(false); // Ne pas oublier en cas d'erreur
+
       return; // Stop if there are errors
     }
 
-    //appel de l"api pour créer le compte
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -181,17 +187,19 @@ export default function SignupForm() {
           router.push(`/confirm-email?email=${encodeURIComponent(email)}`);
         } else {
           const errorData = await sendCodeResponse.json();
-          console.error('Error sending verification code:', errorData);
-          setErrors({ api: errorData.message || 'Failed to send verification code' });
+          toast.error(errorData.error || 'Failed to send verification code');
+          setErrors({ api: errorData.error || 'Failed to send verification code' });
         }
       } else {
         const errorData = await response.json();
-        console.error('Error creating account:', errorData);
-        setErrors({ api: errorData.message || 'Failed to create account' });
+        toast.error(errorData.error || errorData.message || 'Failed to create account');
+        setErrors({ api: errorData.error || errorData.message || 'Failed to create account' });
       }
     } catch (error) {
-      console.error('Error creating account:', error);
+      toast.error('Network error. Please try again.');
       setErrors({ api: 'Network error. Please try again.' });
+    } finally {
+      setIsLoading(false); // <-- FIN du chargement
     }
   };
 

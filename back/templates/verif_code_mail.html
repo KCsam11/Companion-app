@@ -1,67 +1,78 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" style="background-color: #000000">
   <head>
-    <meta charset="UTF-8" />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        padding: 0;
-      }
-      .email-container {
-        background-color: #ffffff;
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 20px 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-      .logo {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .logo img {
-        height: 60px;
-      }
-      .title {
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        color: #333;
-      }
-      .code-box {
-        text-align: center;
-        margin: 30px 0;
-      }
-      .code {
-        display: inline-block;
-        background-color: #f0f0f0;
-        padding: 15px 30px;
-        font-size: 28px;
-        letter-spacing: 6px;
-        font-weight: bold;
-        border-radius: 6px;
-        color: #333;
-        border: 1px dashed #ccc;
-      }
-      .footer {
-        font-size: 13px;
-        color: #888;
-        text-align: center;
-        margin-top: 30px;
-      }
-    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Account</title>
+    <!--[if mso]>
+      <style type="text/css">
+        table {
+          border-collapse: collapse;
+          mso-table-lspace: 0pt;
+          mso-table-rspace: 0pt;
+        }
+        td,
+        div,
+        a {
+          font-family: Arial, sans-serif !important;
+        }
+      </style>
+    <![endif]-->
   </head>
-  <body>
-    <div class="email-container">
-      <div class="logo"><img src="""https://lol-companion.logo/companion-logo.svg" alt="""Logo" /></div>
-      <div class="title">Ton code de vérification</div>
-      <div class="code-box">
-        <div class="code">{{ code }}</div>
-      </div>
-      <p style="text-align: center">Entre ce code dans l'application pour valider ton adresse email.</p>
-      <div class="footer">Si tu n'es pas à l'origine de cette demande, tu peux ignorer ce message.</div>
-    </div>
+  <body style="margin: 0; padding: 0; background-color: #000000" bgcolor="#000000">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000" bgcolor="#000000">
+      <tr>
+        <td align="center" style="padding: 40px 0">
+          <!--[if mso]>
+        <table role="presentation" border="0" cellspacing="0" cellpadding="0" width="400">
+        <tr>
+        <td>
+        <![endif]-->
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 400px; text-align: center; font-family: Arial, sans-serif">
+            <!-- Logo -->
+            <tr>
+              <td align="center" style="padding: 0 0 40px 0">
+                <!-- IMPORTANT: Utilisez un format d'image PNG ou JPG pour une meilleure compatibilité. Le SVG n'est pas bien supporté. -->
+                <img src="https://logo-5g6z.vercel.app/companion-logo.png" alt="Companion Logo" width="50" height="50" style="display: block; border: 0" />
+              </td>
+            </tr>
+            <!-- Title -->
+            <tr>
+              <td align="center" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; padding: 0 20px 20px 20px">Your verification code</td>
+            </tr>
+            <!-- Paragraph -->
+            <tr>
+              <td align="center" style="color: #aaaaaa; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6; padding: 0 20px 40px 20px">
+                Thank you for signing up for Companion.<br />
+                Enter the following verification code to<br />
+                confirm your account.
+              </td>
+            </tr>
+            <!-- Code -->
+            <tr>
+              <td align="center" style="padding: 0 20px 40px 20px">
+                <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center" bgcolor="#111111" style="background-color: #111111; color: #ffffff; font-family: Arial, sans-serif; font-weight: bold; padding: 20px; border-radius: 12px; font-size: 36px; letter-spacing: 10px">{{code}}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Address -->
+            <tr>
+              <td align="center" style="padding: 20px 20px 0 20px; font-family: Arial, sans-serif; font-size: 14px; color: #aaaaaa">
+                <a href="#" style="color: #aaaaaa; text-decoration: underline">2261 Market Street #5039</a><br />
+                <a href="#" style="color: #aaaaaa; text-decoration: underline">San Francisco, CA 94114</a>
+              </td>
+            </tr>
+          </table>
+          <!--[if mso]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

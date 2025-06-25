@@ -64,7 +64,14 @@ export function ConfirmEmailDialog() {
   }
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(open) => {
+        // Empêche la fermeture sauf si validé
+        if (hasGuessed) setIsDialogOpen(open);
+      }}
+      modal={true} // optionnel selon ta version de shadcn/ui
+    >
       <DialogContent>
         <div className='flex flex-col items-center gap-2'>
           <img src='/companion-logo.svg' alt='Companion Logo' className='h-8 w-8  [animation:spin_20s_linear_infinite]' />
